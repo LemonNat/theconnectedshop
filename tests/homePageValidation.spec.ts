@@ -57,48 +57,48 @@ test.describe('Check Home elements', () => {
 
     })
 
-    // test.describe('Search functionality', () => {
-    //     test.beforeEach(async ({ page }) => {
-    //         basePage = new BasePage(page);
-    //         header = new Header(page);
-    //         search = new SearchFunctionality(page);
+    test.describe('Search functionality', () => {
+        test.beforeEach(async ({ page }) => {
+            basePage = new BasePage(page);
+            header = new Header(page);
+            search = new SearchFunctionality(page);
 
-    //         await basePage.goto();
-    //         await basePage.waitForUrlContains();
-    //     });
+            await basePage.goto();
+            await basePage.waitForUrlContains();
+        });
 
-    //     test('Search existing item', async () => {
-    //         await search.searchAppearance();
-    //         await search.searchFill(query);
-    //         await search.searchGoToResult(query);
-    //         await search.searchResultsCounterPresent();
-    //         await search.searchFirstResultCheck(query);
-    //     });
+        test('Search existing item', async () => {
+            await search.searchAppearance();
+            await search.searchFill(query);
+            await search.searchGoToResult(query);
+            await search.searchResultsCounterPresent();
+            await search.searchFirstResultCheck(query);
+        });
 
-    //     test('Search not existing item', async () => {
-    //         await search.searchAppearance();
-    //         await search.searchFill(badQuery);
-    //         await search.searchGoToResult(badQuery);
-    //         await search.searchNoResult(badQuery);
-    //     });
+        test('Search not existing item', async () => {
+            await search.searchAppearance();
+            await search.searchFill(badQuery);
+            await search.searchGoToResult(badQuery);
+            await search.searchNoResult(badQuery);
+        });
 
-    //     // test('Search and add to sopping cart', async ({ page }) => {
-    //     //     await basePage.welcomePopupClose();
-    //     //     await search.searchAppearance();
-    //     //     await search.searchFill(query);
-    //     //     await search.searchGoToResult(query);
-    //     //     await basePage.welcomePopupClose();
-    //     //     await search.searchResultsCounterPresent();
-    //     //     await search.searchFirstResultCheck(query);
+        test('Search and add to sopping cart', async ({ page }) => {
+            await basePage.welcomePopupClose();
+            await search.searchAppearance();
+            await search.searchFill(query);
+            await search.searchGoToResult(query);
+            await basePage.welcomePopupClose();
+            await search.searchResultsCounterPresent();
+            await search.searchFirstResultCheck(query);
             
-    //     //     await search.searchAddProductToCart(query, 0);
-    //     //     await search.searchAddProductToCart(query, 1);
+            await search.searchAddProductToCart(query, 0);
+            await search.searchAddProductToCart(query, 1);
 
-    //     //     await header.shoppingCartClick();
-    //     //     await basePage.shoppingCartPage(query);
-    //     //     await basePage.shoppingCartCalculateTotal();
-    //     // })
-    // })
+            await header.shoppingCartClick();
+            await basePage.shoppingCartPage(query);
+            await basePage.shoppingCartCalculateTotal();
+        })
+    })
 
 
 })
