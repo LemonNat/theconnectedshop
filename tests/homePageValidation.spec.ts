@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { BasePage } from '../pages/BasePage';
 import { Header } from '../pages/Header';
-import { SearchFunctionality } from '../pages/searchFunctionality';
+import { SearchFunctionality } from '../pages/SearchFunctionality';
 
 
 test.describe('Check Home elements', () => {
