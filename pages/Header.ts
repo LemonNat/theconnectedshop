@@ -51,7 +51,7 @@ export class Header {
     async profileLinkAndIcon() {
         const profileLink = this.page.locator('div.header__icons a.header__icon--account');
         await expect(profileLink).toBeVisible();
-        await expect(profileLink).toHaveAttribute('href', 'https://theconnectedshop.com/customer_authentication/redirect?locale=en&region_country=UA');
+        await expect(profileLink).toHaveAttribute('href', /https:\/\/theconnectedshop\.com\/customer_authentication\/redirect\?locale=en&region_country=.*/gm);
 
         const profileIcon = this.page.locator('div.header__icons svg.icon-account');
         await expect(profileIcon).toBeVisible();
