@@ -1,4 +1,5 @@
 import { Page, expect } from '@playwright/test';
+import { clickElement, isVisible } from '../utils/GlobalMethods';
 
 export class BasePage {
     readonly page: Page;
@@ -23,32 +24,30 @@ export class BasePage {
         await expect(this.page).toHaveTitle(value);
     }
 
-    async urlCheck() {
-        await expect(this.page).toHaveURL('/');
-
-    }
 
     async welcomePopupClose() {
-        await this.page.locator('#kommunicate-widget-iframe').contentFrame().locator('#km-chat-login-modal #km-modal-close').click();
+        if (await this.page.locator('#km-chat-login-modal').isVisible()) {
+            await clickElement(this.page.locator('#km-chat-login-modal').contentFrame().locator('#km-chat-login-modal #km-modal-close'), 'Close Welcome popup');
+        }
     }
 
     async shoppingCartPage(value: string) {
         //Checking page
         await expect(this.page).toHaveURL('/cart');
-        await expect(this.page.locator('div.page-title__text-wrapper').getByText('Your cart')).toBeVisible();
+        await isVisible(this.page.locator('div.page-title__text-wrapper').getByText('Your cart'), 'You cart title');
 
         //Checking product section
-        await expect(this.page.locator('#cart').getByText('Product')).toBeVisible();
-        await expect(this.page.locator('#cart th').getByText('Quantity')).toBeVisible();
-        await expect(this.page.locator('#cart th.small-hide').getByText('Total')).toBeVisible();
+        await isVisible(this.page.locator('#cart').getByText('Product'), 'Product title in the table');
+        await isVisible(this.page.locator('#cart th').getByText('Quantity'), 'Quantity title in the table');
+        await isVisible(this.page.locator('#cart th.small-hide').getByText('Total'), 'Total title in the table');
         //Checking product we are looking for is visible on page
-        await expect(this.page.locator('#cart a.cart-item__name.h4').getByText(value)).toBeVisible();
+        await isVisible(this.page.locator('#cart a.cart-item__name.h4').getByText(value), 'Product we are looking for is visible on page');
 
         //Cart totals section
-        await expect(this.page.locator('#main-cart-footer')).toBeVisible();
-        await expect(this.page.locator('#main-cart-footer').getByText('Subtotal')).toBeVisible();
+        await isVisible(this.page.locator('#main-cart-footer'), 'Cart totals section');
+        await isVisible(this.page.locator('#main-cart-footer').getByText('Subtotal'), 'Subtotal in Cart totals section');
         const subtotalAmount = this.page.locator('#main-cart-footer p.totals__subtotal-value');
-        await expect(subtotalAmount).toBeVisible();
+        await isVisible(subtotalAmount, 'Subtotal amount in Cart totals section');
     }
 
     async shoppingCartCalculateTotal() {
@@ -64,7 +63,7 @@ export class BasePage {
             //increase total amount
             totalAmount += itemAmount;
         }
-        
+
         //compare calculated total and exisitng one
         let SubtotalText = await this.page.locator('#main-cart-footer p.totals__subtotal-value').innerText();
         let SubtotalNumber: number = +SubtotalText.replace('₴', '').replace(',', '');
