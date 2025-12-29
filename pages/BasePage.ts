@@ -31,7 +31,7 @@ export class BasePage {
         }
     }
 
-    async shoppingCartPage(value: string) {
+    async checkShoppingCartPageElements(value: string) {
         //Checking page
         await expect(this.page).toHaveURL('/cart');
         await isVisible(this.page.locator('div.page-title__text-wrapper').getByText('Your cart'), 'You cart title');

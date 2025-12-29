@@ -3,6 +3,9 @@ import { BasePage } from '../pages/BasePage';
 import { Header } from '../pages/Header';
 import { Search } from '../pages/Search';
 import { clickElement, fillElement } from '../utils/GlobalMethods';
+import { HOME_PAGE } from '../utils/Constants/Page';
+import { SEARCH_QUERIES, SEARCH_TEXTS } from '../utils/Constants/Search';
+//import page_data from '../utils/Data_JSON/page_data.json';
 
 
 
@@ -15,16 +18,12 @@ test.describe('Check Home elements', () => {
     let search: Search;
     let badSearch: Search;
 
-    const pageTitle = 'The Connected Shop - Smart Locks, Smart Sensors, Smart Home & Office';
-    const query = 'Smart Door Lock Slim';
-    const badQuery = 'sdfsfs';
-    const headerSearchPlaceholder = 'Search';
 
     test.beforeEach(async ({ page }) => {
         basePage = new BasePage(page);
         header = new Header(page);
-        search = new Search(page, query);
-        badSearch = new Search(page, badQuery);
+        search = new Search(page, SEARCH_QUERIES.valid);
+        badSearch = new Search(page, SEARCH_QUERIES.invalid);
 
         await basePage.goto();
         await basePage.waitForUrlContains();
@@ -41,12 +40,14 @@ test.describe('Check Home elements', () => {
         });
 
         test('url and title check', async () => {
-            await basePage.titleCheck(pageTitle);
+            await basePage.titleCheck(HOME_PAGE.title);
+            //title from json
+            //await basePage.titleCheck(page_data.homePage.title);
             await basePage.waitForUrlContains();
         });
 
         test('search is visible', async () => {
-            await header.checkSearchFieldIsVisible(headerSearchPlaceholder);
+            await header.checkSearchFieldIsVisible(SEARCH_TEXTS.SearchPlaceholder);
         });
 
         test('check contact phone and icon', async () => {
@@ -65,26 +66,26 @@ test.describe('Check Home elements', () => {
 
 
     test.describe('Search functionality', () => {
-       
+
         test('Search existing item', async () => {
-            await header.checkSearchFieldIsVisible(headerSearchPlaceholder);
-            await fillElement(header.searchInput, search.searchQuery, 'Search query');
+            await header.checkSearchFieldIsVisible(SEARCH_TEXTS.SearchPlaceholder);
+            await fillElement(header.searchInput, SEARCH_QUERIES.valid, 'Search query');
             await search.goToResultPage();
             await search.ResultsCounterPresent();
             await search.FirstResultCheck();
         });
 
         test('Search not existing item', async () => {
-            await header.checkSearchFieldIsVisible(headerSearchPlaceholder);
-            await fillElement(header.searchInput, badSearch.searchQuery, 'Bad search query');
+            await header.checkSearchFieldIsVisible(SEARCH_TEXTS.SearchPlaceholder);
+            await fillElement(header.searchInput, SEARCH_QUERIES.invalid, 'Bad search query');
             await badSearch.goToResultPage();
             await badSearch.NoResultPlaceholderCheck();
         });
 
-        test('Search and add to sopping cart', async () => {
+        test('Search and add to shopping cart', async () => {
             await basePage.welcomePopupClose();
-            await header.checkSearchFieldIsVisible(headerSearchPlaceholder);
-            await fillElement(header.searchInput, search.searchQuery, 'Search query');
+            await header.checkSearchFieldIsVisible(SEARCH_TEXTS.SearchPlaceholder);
+            await fillElement(header.searchInput, SEARCH_QUERIES.valid, 'Search query');
 
             await search.goToResultPage();
             await basePage.TimeOut(5000);
@@ -96,7 +97,7 @@ test.describe('Check Home elements', () => {
             await search.AddProductToCart(1);
 
             await header.shoppingCartClick();
-            await basePage.shoppingCartPage(query);
+            await basePage.checkShoppingCartPageElements(SEARCH_QUERIES.valid);
             await basePage.shoppingCartCalculateTotal();
         })
 
