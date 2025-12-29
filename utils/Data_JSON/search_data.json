@@ -1,0 +1,10 @@
+{
+  "queries": {
+    "valid": "Smart Door Lock Slim",
+    "invalid": "sdfsfs"
+  },
+
+  "placeholder": {
+    "searchPlaceholder": "Search"
+  }
+}
