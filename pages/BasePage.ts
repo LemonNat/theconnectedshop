@@ -68,7 +68,7 @@ export class BasePage {
         let SubtotalText = await this.page.locator('#main-cart-footer p.totals__subtotal-value').innerText();
         let SubtotalNumber: number = +SubtotalText.replace('₴', '').replace(',', '');
         await expect(totalAmount).toEqual(SubtotalNumber);
-    }
+    } 
 
 
 }
