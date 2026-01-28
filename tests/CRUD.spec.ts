@@ -31,17 +31,34 @@ test.describe('WordPress Posts API - CRUD Tests', () => {
 
     test('CREATE - Should create a new post', async ({ request }) => {
 
+        let previousPostId: number;
+        const previousResponse = await request.post(POSTS_ENDPOINT, {
+            headers: getAuthHeaders(),
+            data: postData
+        });
+
+        expect(previousResponse.ok()).toBeTruthy();
+        expect(previousResponse.status()).toBe(201);
+
+        const previousResponseBody = await previousResponse.json();
+        previousPostId = previousResponseBody.id;
+        //console.log('previousPostId: ' + previousPostId);
+
+
         const response = await request.post(POSTS_ENDPOINT, {
             headers: getAuthHeaders(),
             data: postData
         });
-        
+
         expect(response.ok()).toBeTruthy();
         expect(response.status()).toBe(201);
 
         const responseBody = await response.json();
         createdPostId = responseBody.id;
+        //console.log('createdPostId: ' + createdPostId);
 
+        //expect(createdPostId).not.toBeLessThanOrEqual(previousPostId);
+        expect(createdPostId).toBeGreaterThan(previousPostId);
         expect(responseBody).toHaveProperty('id');
         expect(responseBody.title.rendered).toBe(postData.title);
         expect(responseBody.status).toBe('publish');
@@ -55,10 +72,8 @@ test.describe('WordPress Posts API - CRUD Tests', () => {
         expect(typeof responseBody.title.rendered).toBe('string');
         expect(typeof responseBody.content.protected).toBe('boolean');
         expect(typeof responseBody.class_list).toBe('object');
-        expect(responseBody.class_list).toEqual(['post-'+responseBody.id, 'post', 'type-post', 'status-'+postData.status, 'format-standard', 'hentry', 'category-news']);
-        
-        // const urlRegex = /^https?:\/\/[^\s/$.?#]+\.[^\s/$.?#]+\/?\?p=$\d+$/;
-        // expect(responseBody.link).toMatch(urlRegex);
+        expect(responseBody.class_list).toEqual(['post-' + responseBody.id, 'post', 'type-post', 'status-' + postData.status, 'format-standard', 'hentry', 'category-news']);
+
 
         console.log('Created post ID:', createdPostId);
         console.log(responseBody);
