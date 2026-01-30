@@ -67,4 +67,4 @@ jobs:
             Report attached.
           to: ${{ secrets.MAIL_TO }}
           from: ${{ secrets.MAIL_FROM }}
-          attachments: test-results/enterprise-report/index.html
+          html_body: file://test-results/enterprise-report/index.html
