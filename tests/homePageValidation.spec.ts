@@ -31,6 +31,10 @@ test.describe('Check Home elements', () => {
     test.describe('check Header elements', () => {
 
         test('check Header logo', async () => {
+
+           // test.info().annotations.push({ type: 'tag', description: 'smoke' });
+            //test.info().annotations.push({ type: 'tag', description: 'critical' });
+
             await basePage.welcomePopupClose();
             await header.logoCheck();
             await clickElement(header.logoLink, 'Logo link');

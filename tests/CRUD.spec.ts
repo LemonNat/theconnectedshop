@@ -29,7 +29,7 @@ test.describe('WordPress Posts API - CRUD Tests', () => {
         console.log('Testing API endpoint:', POSTS_ENDPOINT);
     });
 
-    test('CREATE - Should create a new post', async ({ request }) => {
+    test('@smoke CREATE - Should create a new post', async ({ request }) => {
 
         let previousPostId: number;
         const previousResponse = await request.post(POSTS_ENDPOINT, {
