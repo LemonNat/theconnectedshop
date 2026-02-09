@@ -1,0 +1,26 @@
+image: mcr.microsoft.com/playwright:v1.57.0-jammy
+ 
+stages:
+  - test
+ 
+playwright:
+  stage: test
+  timeout: 60m
+ 
+  before_script:
+    - npm ci
+ 
+  script:
+    - npx playwright test
+ 
+  artifacts:
+    when: always
+    name: playwright-report
+    paths:
+      - playwright-report/
+    expire_in: 30 days
+ 
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH == "master"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"

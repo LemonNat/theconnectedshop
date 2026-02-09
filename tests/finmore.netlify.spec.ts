@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 //import { faker } from '@faker-js/faker'; english as defalult
-import { faker } from '@faker-js/faker/locale/uk';
+//import { faker } from '@faker-js/faker/locale/uk';
 import { generateRandomEmail, generateRandomFullName, generateStrongPassword } from '../utils/GlobalMethods';
 
 
